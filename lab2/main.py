@@ -16,14 +16,9 @@ def main():
         else:
             dictionary[firstName + " " + lastName] = int(score)
 
-    maxScore = 0
-    maxName = ""
     for key, value in dictionary.items():
-        if value > maxScore:
-            maxScore = value
-            maxName = key
-
-    print("Max score is " + str(maxScore) + " by " + maxName)
+        if value == max(dictionary.values()):
+            print(key, value)
 
 
 if __name__ == '__main__':
