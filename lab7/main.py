@@ -24,6 +24,14 @@ while True:
     else:
         data = sock.recv(1024)
         if not data:
-            pass
+            listOfSockets.remove(sock)
+            for s in listOfSockets:
+                if s != sockL:
+                    s.send("[{}{}] (disconnected)".format(addr[0], addr[1]).encode())
+            sock.close()
+            continue
         else:
-            pass
+            for s in listOfSockets:
+                if s != sockL:
+                    s.send("[{}{}] {}".format(addr[0], addr[1], data.decode()).encode())
+
