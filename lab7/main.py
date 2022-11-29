@@ -15,7 +15,12 @@ while True:
     sock = tup[0][0]
 
     if sock == sockL:
-        pass
+        (sockC, addr) = sockL.accept()
+        listOfSockets.append(sockC)
+        for s in listOfSockets:
+            if s != sockL:
+                s.send("[{}{}] (connected)".format(addr[0], addr[1]).encode())
+
     else:
         data = sock.recv(1024)
         if not data:
