@@ -63,8 +63,8 @@ def client():
         print("(Opponents move: {})".format(data.decode("ascii")))
         data = sockC.recv(1024)
         scoreServer = data.decode("ascii").split(": ")[1]
-        score = (int(scoreServer[1]), int(scoreServer[4]))
-        checkWinner(score, 1)
+        score = (int(scoreServer[4]), int(scoreServer[1]))
+        checkWinner(score, 0)
         print(data.decode("ascii"))
 
     sockC.close()
@@ -87,7 +87,8 @@ def server():
             if not data:
                 break
             score = checkWin(serverMove, data.decode("ascii"), score)
-            sockC.sendall(bytearray("Score: {}".format(score), "ascii"))
+            sockC.sendall(
+                bytearray("Score: {}".format((score[1], score[0])), "ascii"))
             print("(Opponents move: {}, score: {})".format(
                 data.decode("ascii"), score))
 
