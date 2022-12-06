@@ -3,6 +3,7 @@ import tkinter.messagebox as tkmsgbox
 import tkinter.scrolledtext as tksctxt
 import socket
 
+
 class Application(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
@@ -10,10 +11,10 @@ class Application(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-    
-        #-------------------------------------------------------------------
+
+        # -------------------------------------------------------------------
         # row 1: connection stuff (and a clear-messages button)
-        #-------------------------------------------------------------------
+        # -------------------------------------------------------------------
         self.groupCon = tk.LabelFrame(bd=0)
         self.groupCon.pack(side="top")
         #
@@ -31,28 +32,26 @@ class Application(tk.Frame):
         padder.pack(side="left")
         #
         self.connectButton = tk.Button(self.groupCon,
-            command = connectButtonClick, width=10)
+                                       command=connectButtonClick, width=10)
         self.connectButton.pack(side="left")
         #
         padder = tk.Label(self.groupCon, padx=1)
         padder.pack(side="left")
         #
         self.clearButton = tk.Button(self.groupCon, text='clr msg',
-            command = clearButtonClick)
+                                     command=clearButtonClick)
         self.clearButton.pack(side="left")
 
-        
-        #-------------------------------------------------------------------
+        # -------------------------------------------------------------------
         # row 2: the message field (chat messages + status messages)
-        #-------------------------------------------------------------------
+        # -------------------------------------------------------------------
         self.msgText = tksctxt.ScrolledText(height=15, width=42,
-            state=tk.DISABLED)
+                                            state=tk.DISABLED)
         self.msgText.pack(side="top")
 
-        
-        #-------------------------------------------------------------------
+        # -------------------------------------------------------------------
         # row 3: sending messages
-        #-------------------------------------------------------------------
+        # -------------------------------------------------------------------
         self.groupSend = tk.LabelFrame(bd=0)
         self.groupSend.pack(side="top")
         #
@@ -68,13 +67,13 @@ class Application(tk.Frame):
         padder = tk.Label(self.groupSend, padx=5)
         padder.pack(side="left")
         #
-        self.sendButton = tk.Button(self.groupSend, text = 'send',
-            command = sendButtonClick)
+        self.sendButton = tk.Button(self.groupSend, text='send',
+                                    command=sendButtonClick)
         self.sendButton.pack(side="left")
-        
-        
+
         # set the focus on the IP and Port text field
         self.ipPort.focus_set()
+
 
 def clearButtonClick():
     g_app.msgText.configure(state=tk.NORMAL)
@@ -82,22 +81,28 @@ def clearButtonClick():
     g_app.msgText.see(tk.END)
     g_app.msgText.configure(state=tk.DISABLED)
 
+
 def connectButtonClick():
     # forward to the connect handler
     connectHandler(g_app)
+
 
 def sendButtonClick():
     # forward to the sendMessage method
     sendMessage(g_app)
 
 # the connectHandler toggles the status between connected/disconnected
+
+
 def connectHandler(master):
     if g_bConnected:
         disconnect()
     else:
         tryToConnect()
 
-# a utility method to print to the message field        
+# a utility method to print to the message field
+
+
 def printToMessages(message):
     g_app.msgText.configure(state=tk.NORMAL)
     g_app.msgText.insert(tk.END, message + '\n')
@@ -106,24 +111,29 @@ def printToMessages(message):
     g_app.msgText.configure(state=tk.DISABLED)
 
 # if attempt to close the window, it is handled here
+
+
 def on_closing():
     if g_bConnected:
         if tkmsgbox.askokcancel("Quit",
-            "You are still connected. If you quit you will be"
-            + " disconnected."):
+                                "You are still connected. If you quit you will be"
+                                + " disconnected."):
             myQuit()
     else:
         myQuit()
 
-# when quitting, do it the nice way    
+# when quitting, do it the nice way
+
+
 def myQuit():
     disconnect()
     g_root.destroy()
 
 # utility address formatting
+
+
 def myAddrFormat(addr):
     return '{}:{}'.format(addr[0], addr[1])
-
 
 
 # disconnect from server (if connected) and
@@ -132,7 +142,6 @@ def disconnect():
     # we need to modify the following global variables
     global g_bConnected
     global g_sock
-
 
     # your code here
 
@@ -145,8 +154,8 @@ def disconnect():
     # once disconnected, set buttons text to 'connect'
     g_app.connectButton['text'] = 'connect'
 
-    
-# attempt to connect to server    
+
+# attempt to connect to server
 def tryToConnect():
     # we need to modify the following global variables
     global g_bConnected
@@ -167,6 +176,8 @@ def tryToConnect():
         g_bConnected = False
 
 # attempt to send the message (in the text field g_app.textIn) to the server
+
+
 def sendMessage(master):
     message = g_app.textIn.get()
     if message:
@@ -192,14 +203,9 @@ def pollMessages():
         except socket.error as e:
             break
 
-
-
     # your code here
     # use the recv() function in non-blocking mode
     # catch a socket.error exception, indicating that no data is available
-
-
-
 
 
 # by default we are not connected
@@ -207,7 +213,7 @@ g_bConnected = False
 g_sock = None
 
 # set the delay between two consecutive calls to pollMessages
-g_pollFreq = 200 # in milliseconds
+g_pollFreq = 200  # in milliseconds
 
 # launch the gui
 g_root = tk.Tk()

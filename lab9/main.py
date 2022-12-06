@@ -1,14 +1,14 @@
 import math
 import random
 import zlib
-import collections 
+
 
 def main():
-    txt = read_file('exempeltext.txt')
+    txt = read_file('exempeltextMac.txt')
 
     byteArr = bytearray(txt, 'utf-8')
 
-    # Length of the text 
+    # Length of the text
 
     print("Length txt: {}".format(len(txt)))
     print("Length byteArr: {}".format(len(byteArr)))
@@ -66,14 +66,14 @@ def main():
     print("Length t10: {}".format(len(t10)))
     print("Length compress: {}".format(len(code)))
 
-    # No, because t10 is just repition of t1, hence we don't need to store 
+    # No, because t10 is just repition of t1, hence we don't need to store
     # the same information 10 times.
-
 
 
 def read_file(filename):
     with open(filename, 'r') as f:
         return f.read()
+
 
 def makeHisto(byteArr):
     histo = [0] * 256
@@ -81,6 +81,7 @@ def makeHisto(byteArr):
         histo[byte] += 1
 
     return histo
+
 
 def makeProb(histo):
     # Returns a probability distribution which is normalized
@@ -90,6 +91,7 @@ def makeProb(histo):
 
     return prob
 
+
 def entropy(prob):
     # Returns the entropy of a probability distribution
     ent = 0
@@ -98,6 +100,7 @@ def entropy(prob):
             ent += prob[x] * math.log(prob[x], 2)
 
     return -ent
+
 
 if __name__ == "__main__":
     main()

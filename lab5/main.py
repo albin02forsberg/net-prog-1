@@ -64,7 +64,7 @@ def client():
         data = sockC.recv(1024)
         scoreServer = data.decode("ascii").split(": ")[1]
         score = (int(scoreServer[4]), int(scoreServer[1]))
-        checkWinner(score, 0)
+        checkWinner(score, 1)
         print(data.decode("ascii"))
 
     sockC.close()
